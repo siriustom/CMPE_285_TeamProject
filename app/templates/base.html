@@ -1,0 +1,108 @@
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap-theme.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static',filename='css/carousel.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static',filename='css/workaround.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static',filename='js/bootstrap.js') }}">
+      <link rel="stylesheet" href="{{ url_for('static',filename='js/npm.js') }}">
+      <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+       <title>Group7_StockPorfolio</title>
+   </head>
+   <body>
+{#      <div class="navbar-wrapper" style="color: gray; margin-top: 200px">#}
+{#         <div class="container">#}
+{#            <nav class="navbar navbar-inverse navbar-static-top" style="height: 120px">#}
+{#               <div class="container">#}
+{#                  <div id="navbar" class="navbar-collapse collapse">#}
+{#                     <h1 style="padding: 30px; color:whitesmoke; text-align: center">Stock Portfolio Suggestion#}
+{#                        Engine#}
+{#                     </h1>#}
+{#                  </div>#}
+{#               </div>#}
+{#            </nav>#}
+{#         </div>#}
+{#      </div>#}
+      <!-- Carousel
+         ================================================== -->
+      <div id="myCarousel" class="carousel slide" data-ride="carousel" >
+         <div class="carousel-inner" role="listbox">
+            <div class="item active">
+               <img class="first-slide"
+                  src="../static/img/stock2.png"
+                  alt="First slide">
+            </div>
+         </div>
+      </div>
+      <!-- /.carousel -->
+      <!-- Marketing messaging and featurettes
+         ================================================== -->
+      <!-- Wrap the rest of the page in another container to center all the content. -->
+      <div class="container marketing">
+         <!-- Three columns of text below the carousel -->
+         <div class="row justify-content-md-center">
+             <div>
+                 <h1 style="text-align: center">Stock Portfolio Suggestion Engine </h1>
+             </div>
+          <div class="col-12 col-md-auto">
+            <div style="padding-left: 100px; padding-top: 50px;"><h4>Please select stock strategy (1 or 2 choices):</h4></div>
+            <div class="col-lg-1">
+            </div>
+             <div class='col-lg-2'>
+                 <img class="img-circle" src="../static/img/ethicalInvesting.jpeg" alt="Ethical" width="120" height="120">
+             </div>
+             <div class='col-lg-2'>
+                 <img class="img-circle" src="../static/img/Growth.jpg" alt="Growth" width="120" height="120">
+             </div>
+             <div class='col-lg-2'>
+                 <img class="img-circle" src="../static/img/indexInvest.jpg" alt="Index" width="120" height="120">
+             </div>
+             <div class='col-lg-2'>
+                 <img class="img-circle" src="../static/img/QualityInvesting.jpg" alt="Quality" width="120" height="120">
+             </div>
+             <div class='col-lg-2'>
+                 <img class="img-circle" src="../static/img/Value-Investing.jpg" alt="Value" width="120" height="120">
+             </div>
+            <div class="col-lg-1">
+            </div>
+          </div>
+         </div>
+
+         <div class="row">
+            <div style="margin-bottom: 50px"></div>
+{#            <div class="col-lg-1">#}
+{#            </div>#}
+            {% block content %} {% endblock %}
+            <div class="col-lg-1">
+            </div>
+         </div>
+         <!-- /.row -->
+      </div>
+      <!-- FOOTER -->
+      <hr class="featurette-divider">
+      <footer>
+        <p class="pull-right"><a href="#">Back to top<</a></p>
+        <p>&copy; 2017 Group7. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </footer>
+      {#{% block content %}{% endblock %}#}
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script>window.jQuery || document.write('<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"><\/script>')</script>
+      <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+      <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+      <script src="http://getbootstrap.com/assets/js/vendor/holder.min.js"></script>
+      <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+      <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+   </body>
+</html>

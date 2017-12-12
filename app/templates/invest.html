@@ -1,0 +1,25 @@
+{%  extends "base.html" %}
+{%  block content %}
+    <form class="post-form" action = "" method="post" name="Strategy">
+        {{  form.hidden_tag()}}
+            {% for item in form %}
+                <div class="col-lg-1"></div>
+                {% if item.type == "MultiCheckboxField" %}
+                    {% for choice in item %}
+                        <div class="col-lg-2">
+                        <span>{{ choice}}</span><span> {{ choice.label }}</span>
+                        </div>
+                    {% endfor %}
+                {%  else %}
+                    <div class="col-md-3 col-md-offset-5">
+                    <br>
+                      <span>{{ item(placeholder="Please Enter $5000/More", class="col-xs-9") }}</span>
+                       </div>
+                {%  endif %}
+            {% endfor %}
+        <div class="col-md-12 col-xs-13 text-center">
+            <button type="submit" class="save btn btn-primary btn">INVEST!</button>
+        </div>
+    </form>
+
+{% endblock %}
