@@ -2,5 +2,4 @@
 .DS_Store
 
 #intelliJ
-.idea/
-*.iml
+.idea/*
