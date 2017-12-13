@@ -1,5 +1,6 @@
 # OS X
 .DS_Store
+_DS_Store
 
 #intelliJ
 .idea/*
