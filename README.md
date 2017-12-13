@@ -12,4 +12,4 @@ To run the application, please follow the is steps below:
 9. pip install pandas_datareader
 10. python run.py
 11. GOTO http://127.0.0.1:5000/invest
-12. Demo Link: https://youtu.be/vgtZMWo3LZw (Youtube
+12. Demo Link: https://youtu.be/vgtZMWo3LZw (Youtube)
