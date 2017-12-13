@@ -4,3 +4,4 @@
 #intelliJ
 .idea/
 *.iml
+application/cache
