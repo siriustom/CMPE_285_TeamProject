@@ -2,10 +2,4 @@
 .DS_Store
 
 #intelliJ
-<<<<<<< HEAD
-.idea/
-*.iml
-application/cache
-=======
 .idea/*
->>>>>>> 52489878febc00cb4bec55a486d11a158ceef37d
