@@ -17,7 +17,6 @@ def invest():
         amount = float(request.form['amount'])
         print(1)
         if amount < 5000:
-            print('fucccccccccccccc')
             return render_template('error.html')
         print(2)
         print(amount)
@@ -32,7 +31,6 @@ def invest():
         details = get_strategy_stock_info(stocklist, amount)
         print(6)
         print(stocklist)
-        print('1234')
         history = get_historical_strategy_stock_value(stocklist, amount)
         print(7)
         print(history)

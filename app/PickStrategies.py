@@ -1,5 +1,6 @@
 
 from collections import defaultdict, OrderedDict
+from pprint import pprint
 import datetime
 import json
 import numpy as np, numpy.random
@@ -125,17 +126,18 @@ def get_strategy_stock_info(stock_list, investment):
 
 
 #get the portfolio total value of the past five days--dict
-def get_historical_strategy_stock_value(stock_list,investment):
+def get_historical_strategy_stock_value(stock_list, investment):
     stock_historical_values= defaultdict(float)
     ordered_date = []
     for stock_short in stock_list:
         historical_info=get_historical_info(stock_short)
+        pprint(historical_info)
         if not ordered_date:
             ordered_date = [itm[0] for itm in historical_info]
         holding_ratio = stock_list[stock_short]
-        point_price=historical_info[0][4]
+        point_price = float(historical_info[0][4])
         for i in range(0,5):
-            stock_historical_values[historical_info[i][0]]+= historical_info[i][4]/point_price*investment*holding_ratio
+            stock_historical_values[historical_info[i][0]] += float(historical_info[i][4]) / point_price * investment * holding_ratio
     dict_json = OrderedDict()
     for date in ordered_date:
         dict_json[date] = stock_historical_values[date]
