@@ -6,5 +6,5 @@ _DS_Store
 .idea/*
 *.pyc
 
-#virtual env
-python_venv/*
+# #virtual env
+# python_venv/*
