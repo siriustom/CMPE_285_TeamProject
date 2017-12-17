@@ -1,8 +1,6 @@
 
 from collections import defaultdict, OrderedDict
 import datetime
-import pandas as pd
-import pandas_datareader.data as pdr
 import json
 import numpy as np, numpy.random
 import urllib2
@@ -28,23 +26,6 @@ def prepare_symbols():
     load_symbol_map('nasdaq.csv')
     load_symbol_map('nyse.csv')
     load_symbol_map('amex.csv')
-
-# get history_stock_info for stock_name
-def get_historical_info_pandas(stock_short):
-    date_time_current = datetime.datetime.now().date()
-    # get the date of 7 days ago
-    date_gap = datetime.timedelta(days=30)
-    date_time_sevendays_ago = date_time_current - date_gap
-    # history for 7 days
-    stock_history_frame = pdr.DataReader(stock_short,'google',str(date_time_sevendays_ago),str(date_time_current))
-    df=pd.DataFrame(stock_history_frame)
-    close_df=df.get('Close')
-    tk=close_df.index.tolist()[-5:]
-
-    close_price_dic=close_df.to_dict()
-    stock_history = [(ts.strftime("%Y-%m-%d"), close_price_dic[ts]) for ts in tk]
-    return stock_history
-
 
 def get_historical_info(stock_short):
     # stock_share = Share(stock_short)
@@ -74,6 +55,7 @@ def get_current_stock_info(stock_short):
     reader = csv.reader(stock_share)
     next(reader, None)  # skip header: timestamp,open,high,low,close,volume
     latest = next(reader, None)
+    print latest
     stock_current_info = {}
     stock_current_info['stock_short'] = stock_short
     # timestamp format: 2017-12-15 16:00:00
@@ -87,7 +69,6 @@ def get_current_stock_info(stock_short):
     # lazy load symbols map
     if not symbol_map:
         prepare_symbols()
-
     stock_current_info['stock_exchange'] = symbol_map[stock_short][1]
     stock_current_info['stock_company_name'] = symbol_map[stock_short][0]
     return stock_current_info
@@ -132,9 +113,9 @@ def get_strategy_stock_info(stock_list, investment):
     #investment=5000
     stock_strategy_invest_info = {}
     for stock_short in stock_list.keys():
-        print(str(stock_short))
         print(stock_short)
         stock_current_info = get_current_stock_info('AAPL')
+        print stock_current_info
         print('i am in')
         holding_ratio = stock_list[stock_short]
         stock_current_info['holding_ratio'] = float("{0:.4f}".format(holding_ratio))

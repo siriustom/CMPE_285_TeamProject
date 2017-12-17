@@ -4,3 +4,4 @@ _DS_Store
 
 #intelliJ
 .idea/*
+*.pyc
