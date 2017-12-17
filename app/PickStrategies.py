@@ -10,32 +10,24 @@ import urllib2
 import csv
 
 API_KEY = '2IGI5KM2OW30BC4P'
-API_BASE_CURRENT = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&apikey={}&symbol={}&interval=1min'
-API_BASE_DAILY = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey={}&symbol={}'
+API_BASE_CURRENT = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&apikey={}&symbol={}&interval=1min' \
+                   '&datatype=csv'
+API_BASE_DAILY = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey={}&symbol={}&datatype=csv'
 
-symbol_cluster_nasdaq = {}
-symbol_cluster_nyse = {}
-symbol_cluster_amex = {}
+symbol_map = {}
 
+def load_symbol_map(fname):
+    with open(fname, 'rb') as fp:
+        reader = csv.reader(fp)
+        stock_exchange = fname.split('.')[0]
+        next(reader, None)  # skip the header
+        for row in reader:
+            symbol_map[row[0]] = [row[1], stock_exchange]
 
 def prepare_symbols():
-    with open('nasdaq.csv', 'rb') as fp:
-        reader = csv.reader(fp)
-        next(reader, None)
-        for row in reader:
-            symbol_cluster_nasdaq[row[0]] = row[1]
-
-    with open('nyse.csv', 'rb') as fp:
-        reader = csv.reader(fp)
-        next(reader, None)
-        for row in reader:
-            symbol_cluster_nyse[row[0]] = row[1]
-
-    with open('amex.csv', 'rb') as fp:
-        reader = csv.reader(fp)
-        next(reader, None)
-        for row in reader:
-            symbol_cluster_amex[row[0]] = row[1]
+    load_symbol_map('nasdaq.csv')
+    load_symbol_map('nyse.csv')
+    load_symbol_map('amex.csv')
 
 # get history_stock_info for stock_name
 def get_historical_info_pandas(stock_short):
@@ -79,43 +71,31 @@ def get_current_stock_info(stock_short):
     stock_share = urllib2.urlopen(API_BASE_CURRENT.format(API_KEY, stock_short))
 
     # stock_share = Share(stock_short)
+    reader = csv.reader(stock_share)
+    next(reader, None)  # skip header: timestamp,open,high,low,close,volume
+    latest = next(reader, None)
     stock_current_info = {}
     stock_current_info['stock_short'] = stock_short
-    stock_trade_datetime = stock_share['Meta Data']['3. Last Refreshed']
-    current_data_json = stock_share['Time Series (1min)']
-
-    stock_latest_price = current_data_json[stock_trade_datetime]['4. close']
+    # timestamp format: 2017-12-15 16:00:00
+    stock_trade_datetime = datetime.datetime.strptime(latest[0], '%Y-%m-%d %H:%M:%S')
+    # use close price
+    stock_latest_price = latest[4]
     # stock_latest_price=stock_share.get_price()
     stock_current_info['stock_latest_price'] = stock_latest_price
-    # stock_trade_datetime = stock_share.get_trade_datetime()
     stock_current_info['stock_trade_datetime'] = stock_trade_datetime
-    prepare_symbols()
-    stock_exchange = ""
-    stock_company_name = ""
-    if stock_short in symbol_cluster_nasdaq:
-        stock_exchange = "nasdaq"
-        stock_company_name = symbol_cluster_nasdaq[stock_short]
-    elif stock_short in symbol_cluster_nyse:
-        stock_exchange = "nyse"
-        stock_company_name = symbol_cluster_nyse[stock_short]
-    elif stock_short in symbol_cluster_amex:
-        stock_exchange = "nyse"
-        stock_company_name = symbol_cluster_amex[stock_short]
-    # stock_exchange = stock_share.get_stock_exchange()
-    stock_current_info['stock_exchange'] = stock_exchange
-    # stock_company_name = stock_share.get_name()
-    stock_current_info['stock_company_name'] = stock_company_name
+
+    # lazy load symbols map
+    if not symbol_map:
+        prepare_symbols()
+
+    stock_current_info['stock_exchange'] = symbol_map[stock_short][1]
+    stock_current_info['stock_company_name'] = symbol_map[stock_short][0]
     return stock_current_info
 
 
 # get all the stock list and according percentage for the selected strategies
 def get_stock_list_all(strategy_list):
-    stock_percent_list = {}
-    if(len(strategy_list) == 1):
-        stock_percent_list = get_stock_list(strategy_list[0], 1)
-    else:
-        for strategy in strategy_list:
-            stock_percent_list.update(get_stock_list(strategy, 0.5))
+    stock_percent_list = get_stock_list(strategy_list[0])
     return stock_percent_list
 
 
@@ -127,18 +107,20 @@ stock_info = {
         'Value': ('AAON', 'CTB', 'JNJ', 'GRUB', 'TTGT')
     }
 #get the stock list and according percentage for one selected strategy, and the allotment is divided equally
-def get_stock_list(strategy,strategy_ratio):
+def get_stock_list(strategy):
     #define the stocks for each strategy
     stocks = stock_info[strategy]
-    change_name = [(float(Share(name).get_change()), name) for name in stocks]
+
+    change_name = [(float(get_change(get_share_lastday(name))), name) for name in stocks]
     change_name.sort(key=lambda x: -x[0])
+
     top_stocks = [change_name[i][1] for i in xrange(3)] #select the top3 stocks
     #get random ratio of stock
     random_ratio = np.mean(np.random.dirichlet(np.ones(3), 10), axis=0).tolist()
     # the stocks_list for the selected strategies
-    stock_percent_list={}
+    stock_percent_list = {}
     for i in range(0,len(top_stocks)):
-        stock_percent_list[stocks[i]] = random_ratio[i] * strategy_ratio
+        stock_percent_list[stocks[i]]= random_ratio[i]
     return stock_percent_list
 
 
@@ -200,3 +182,19 @@ def get_historical_strategy_stock_value(stock_list,investment):
     #json_str = json.dumps(dict_json)
     print(len(result))
     return result
+
+def get_share_lastday(stock_short):
+    API_KEY = '2IGI5KM2OW30BC4P'
+    API_BASE_DAILY = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey={}&symbol={}&datatype=csv'
+    stock_short = stock_short.upper()
+    response = urllib2.urlopen(API_BASE_DAILY.format(API_KEY, stock_short))
+
+    reader = csv.reader(response)
+    next(reader, None)  # skip the header
+    ts_data = [row for row in reader]
+    return ts_data[:1]  # return last data
+
+def get_change(data):
+    open = float(data[0][1])
+    close = float(data[0][3])
+    return close - open
