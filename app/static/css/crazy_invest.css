@@ -1,0 +1,44 @@
+img {
+    width: 100%;
+}
+.round {
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+.round img {
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.gap {
+  display: block;
+  position: relative;
+  margin: 30px 0 30px 0;
+  clear: both;
+}
+.gap:after {
+  clear: both;
+  content: '';
+  display: table;
+}
+.gap-small {
+  margin: 15px 0 15px 0;
+}
+.gap-mini {
+  margin: 10px 0 10px 0;
+}
+
+
+.service-box
+{
+	padding: 1rem;
+}
+.service-box:hover
+{
+	background-color: #fff0f0;
+	cursor: pointer;
+}
+.stratrgy_icon_invisibe
+{
+	visibility: hidden;
+}
