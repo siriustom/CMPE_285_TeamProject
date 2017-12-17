@@ -54,30 +54,27 @@ def get_historical_info_pandas(stock_short):
     return stock_history
 
 
-def get_historical_info(stock_short):
-    stock_short = stock_short.upper()
-    stock_share = urllib2.urlopen(API_BASE_DAILY.format(API_KEY, stock_short))
+def get_historical_data(symbol):
+    try:
+        response = urllib2.urlopen(self.API_BASE.format(API_KEY, symbol))
+        except urllib2.HTTPError, e:
+            return -1, ('HTTPError = ' + str(e.code))
+    except urllib2.URLError, e:
+        return -1, ('URLError = ' + str(e.reason))
+        except httplib.HTTPException, e:
+            return -1, ('HTTPException')
+    except Exception:
+        import traceback
+            return -1, ('generic exception: ' + traceback.format_exc())
+        
+        reader = csv.reader(response)
+        next(reader, None)  # skip the header
+        ts_data = [row for row in reader]
+        # ts_data should be 100 rows if gets correctly, error if less than 10
+        if len(ts_data) < 10:
+            return -1, 'Error getting quote for {}'.format(symbol)
+        return 0, ts_data[:7] # return last 7days' data
 
-    # stock_share = Share(stock_short)
-    # date_time_current= datetime.datetime.now().date()
-
-    #get the date of 7 days ago
-    # date_gap = datetime.timedelta(days = 7)
-    # date_time_sevendays_ago = date_time_current - date_gap
-
-    #history for 7 days
-    # stock_history = stock_share.get_historical(str(date_time_sevendays_ago), str(date_time_current))
-
-    daily_data_json = stock_share['Time Series (Daily)']
-    daily_data_list = list(daily_data_json)
-    stock_history = []
-    i = 0
-    for d in daily_data_list:
-        stock_history.append(d)
-        i = i + 1
-        if i == 6:
-            break
-    return stock_history
 
 # get the current info of the latest stock info from yahoo_finance
 def get_current_stock_info(stock_short):
