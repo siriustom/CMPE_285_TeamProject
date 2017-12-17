@@ -10,32 +10,23 @@ import urllib2
 import csv
 
 API_KEY = '2IGI5KM2OW30BC4P'
-API_BASE_CURRENT = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&apikey={}&symbol={}&interval=1min'
-API_BASE_DAILY = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey={}&symbol={}'
+API_BASE_CURRENT = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&apikey={}&symbol={}&interval=1min&datatype=csv'
+API_BASE_DAILY = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey={}&symbol={}&datatype=csv'
 
-symbol_cluster_nasdaq = {}
-symbol_cluster_nyse = {}
-symbol_cluster_amex = {}
+symbol_map = {}
 
+def load_symbol_map(fname):
+    with open(fname, 'rb') as fp:
+        reader = csv.reader(fp)
+        stock_exchange = fname.split('.')[0]
+        next(reader, None)  # skip the header
+        for row in reader:
+            symbol_map[row[0]] = [row[1], stock_exchange]
 
 def prepare_symbols():
-    with open('nasdaq.csv', 'rb') as fp:
-        reader = csv.reader(fp)
-        next(reader, None)
-        for row in reader:
-            symbol_cluster_nasdaq[row[0]] = row[1]
-
-    with open('nyse.csv', 'rb') as fp:
-        reader = csv.reader(fp)
-        next(reader, None)
-        for row in reader:
-            symbol_cluster_nyse[row[0]] = row[1]
-
-    with open('amex.csv', 'rb') as fp:
-        reader = csv.reader(fp)
-        next(reader, None)
-        for row in reader:
-            symbol_cluster_amex[row[0]] = row[1]
+    load_symbol_map('nasdaq.csv')
+    load_symbol_map('nyse.csv')
+    load_symbol_map('amex.csv')
 
 # get history_stock_info for stock_name
 def get_historical_info_pandas(stock_short):
@@ -82,32 +73,25 @@ def get_current_stock_info(stock_short):
     stock_share = urllib2.urlopen(API_BASE_CURRENT.format(API_KEY, stock_short))
 
     # stock_share = Share(stock_short)
+    reader = csv.reader(stock_share)
+    next(reader, None) # skip header: timestamp,open,high,low,close,volume
+    latest = next(reader, None)
     stock_current_info = {}
     stock_current_info['stock_short'] = stock_short
-    stock_trade_datetime = stock_share['Meta Data']['3. Last Refreshed']
-    current_data_json = stock_share['Time Series (1min)']
-
-    stock_latest_price = current_data_json[stock_trade_datetime]['4. close']
+    # timestamp format: 2017-12-15 16:00:00
+    stock_trade_datetime = datetime.datetime.strptime(latest[0], '%Y-%m-%d %H:%M:%S')
+    # use close price
+    stock_latest_price = latest[4]
     # stock_latest_price=stock_share.get_price()
     stock_current_info['stock_latest_price'] = stock_latest_price
-    # stock_trade_datetime = stock_share.get_trade_datetime()
     stock_current_info['stock_trade_datetime'] = stock_trade_datetime
-    prepare_symbols()
-    stock_exchange = ""
-    stock_company_name = ""
-    if stock_short in symbol_cluster_nasdaq:
-        stock_exchange = "nasdaq"
-        stock_company_name = symbol_cluster_nasdaq[stock_short]
-    elif stock_short in symbol_cluster_nyse:
-        stock_exchange = "nyse"
-        stock_company_name = symbol_cluster_nyse[stock_short]
-    elif stock_short in symbol_cluster_amex:
-        stock_exchange = "nyse"
-        stock_company_name = symbol_cluster_amex[stock_short]
-    # stock_exchange = stock_share.get_stock_exchange()
-    stock_current_info['stock_exchange'] = stock_exchange
-    # stock_company_name = stock_share.get_name()
-    stock_current_info['stock_company_name'] = stock_company_name
+
+    # lazy load symbols map
+    if not symbol_map:
+        prepare_symbols()
+
+    stock_current_info['stock_exchange'] = symbol_map[stock_short][1]
+    stock_current_info['stock_company_name'] = symbol_map[stock_short][0]
     return stock_current_info
 
 
