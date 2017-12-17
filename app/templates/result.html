@@ -159,7 +159,8 @@
     var history_tr = document.getElementById('histable').rows;
     var lineDatas = [];
     lineDatas.push(['Date', 'Amount']);
-    for (var i = 0; i < history_tr.length; i++) {
+    let historyLen = history_tr.length;
+    for (var i = historyLen-1; i >= 0; i--) {
         var lineData = [];
         td = history_tr[i].cells;
         lineData.push(td[0].innerHTML);
