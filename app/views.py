@@ -32,7 +32,7 @@ def invest():
             print('1234')
             history = get_historical_strategy_stock_value(stocklist, amount)
             print(7)
-            print(history);
+            print(history)
             return render_template("result.html", details=details, history=history)
             #return render_template("result.html", details=details, data=map(json.dumps, details))
 
