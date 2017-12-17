@@ -26,9 +26,7 @@ def invest():
             print(4)
             testArray = ['Ethical']
             stocklist = get_stock_list_all(testArray)
-            print(stocklist.keys())
-            testlist = {'ISRG': 0.3469070257097072, 'AAPL': 0.3548278127860295, 'ADBE': 0.29826516150426335}
-            details = get_strategy_stock_info(testlist, amount)
+            details = get_strategy_stock_info(stocklist, amount)
             print(6)
             print(stocklist)
             print('1234')
