@@ -115,7 +115,7 @@ def get_strategy_stock_info(stock_list, investment):
     stock_strategy_invest_info = {}
     for stock_short in stock_list.keys():
         print(stock_short)
-        stock_current_info = get_current_stock_info('AAPL')
+        stock_current_info = get_current_stock_info(stock_short)
         print stock_current_info
         holding_ratio = stock_list[stock_short]
         stock_current_info['holding_ratio'] = float("{0:.4f}".format(holding_ratio))
