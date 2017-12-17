@@ -128,6 +128,7 @@ def get_strategy_stock_info(stock_list, investment):
 def get_historical_strategy_stock_value(stock_list, investment):
     stock_historical_values= defaultdict(float)
     ordered_date = []
+    result = []
     for stock_short in stock_list:
         historical_info=get_historical_info(stock_short)
         pprint(historical_info)
@@ -137,12 +138,13 @@ def get_historical_strategy_stock_value(stock_list, investment):
         point_price = float(historical_info[0][4])
         for i in range(0,5):
             stock_historical_values[historical_info[i][0]] += float(historical_info[i][4]) / point_price * investment * holding_ratio
-    dict_json = OrderedDict()
-    for date in ordered_date:
-        dict_json[date] = stock_historical_values[date]
-    json_str = json.dumps(dict_json)
 
-    return json_str
+    for date in ordered_date:
+        dict_json = {}
+        dict_json['date'] = date
+        dict_json['value'] = float("{0:.2f}".format(stock_historical_values[date]))
+        result.append(dict_json)
+    return result
 
 #get the portfolio total value of the past five days--dict
 # def get_historical_strategy_stock_value(stock_list,investment):
