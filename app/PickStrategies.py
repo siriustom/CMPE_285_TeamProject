@@ -67,12 +67,14 @@ def get_historical_info(stock_short):
 
     #history for 7 days
     # stock_history = stock_share.get_historical(str(date_time_sevendays_ago), str(date_time_current))
+
     daily_data_json = stock_share['Time Series (Daily)']
     daily_data_list = list(daily_data_json)
     stock_history = []
     i = 0
     for d in daily_data_list:
         stock_history.append(d)
+        i = i + 1
         if i == 6:
             break
     return stock_history
