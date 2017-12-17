@@ -12,27 +12,29 @@ def invest():
         try:
             form = InvestForm(request.form)
             amount = float(request.form['amount'])
-
+            print(1)
             if amount < 5000:
                 print('fucccccccccccccc')
                 return render_template('error.html')
-
+            print(2)
             print(amount)
             choices = request.form.getlist('strategies')
-
+            print(3)
             if len(choices)<=0 or len(choices)>2:
                 return render_template('error.html')
             print(choices)
-
-            stocklist = get_stock_list_all(choices)
-            print(5)
-            details = get_strategy_stock_info(stocklist, amount)
+            print(4)
+            testArray = ['Ethical']
+            stocklist = get_stock_list_all(testArray)
+            print(stocklist.keys())
+            testlist = {'ISRG': 0.3469070257097072, 'AAPL': 0.3548278127860295, 'ADBE': 0.29826516150426335}
+            details = get_strategy_stock_info(testlist, amount)
             print(6)
-            print(stocklist);
+            print(stocklist)
             print('1234')
             history = get_historical_strategy_stock_value(stocklist, amount)
             print(7)
-            print(history);
+            print(history)
             return render_template("result.html", details=details, history=history)
             #return render_template("result.html", details=details, data=map(json.dumps, details))
 
