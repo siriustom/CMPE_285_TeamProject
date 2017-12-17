@@ -16,4 +16,4 @@ class MultiCheckboxField(SelectMultipleField):
 class InvestForm(FlaskForm):
     strategies = MultiCheckboxField(u'Strategy', choices=choices)
     amount = DecimalField(u'amount', [validators.required("Please Enter your birthdate"),
-                                     validators.NumberRange(message="It mush be at least 5000", min=5000, max=1.7976931348623157e+308)])
+            validators.NumberRange(message="It mush be at least 5000", min=5000, max=1.7976931348623157e+308)])

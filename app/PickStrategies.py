@@ -6,10 +6,38 @@ import pandas as pd
 import pandas_datareader.data as pdr
 import json
 import numpy as np, numpy.random
+import urllib2
+import csv
 
+API_KEY = '2IGI5KM2OW30BC4P'
+API_BASE_CURRENT = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&apikey={}&symbol={}&interval=1min'
+API_BASE_DAILY = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&apikey={}&symbol={}'
+
+symbol_cluster_nasdaq = {}
+symbol_cluster_nyse = {}
+symbol_cluster_amex = {}
+
+
+def prepare_symbols():
+    with open('nasdaq.csv', 'rb') as fp:
+        reader = csv.reader(fp)
+        next(reader, None)
+        for row in reader:
+            symbol_cluster_nasdaq[row[0]] = row[1]
+
+    with open('nyse.csv', 'rb') as fp:
+        reader = csv.reader(fp)
+        next(reader, None)
+        for row in reader:
+            symbol_cluster_nyse[row[0]] = row[1]
+
+    with open('amex.csv', 'rb') as fp:
+        reader = csv.reader(fp)
+        next(reader, None)
+        for row in reader:
+            symbol_cluster_amex[row[0]] = row[1]
 
 # get history_stock_info for stock_name
-
 def get_historical_info_pandas(stock_short):
     date_time_current = datetime.datetime.now().date()
     # get the date of 7 days ago
@@ -27,27 +55,59 @@ def get_historical_info_pandas(stock_short):
 
 
 def get_historical_info(stock_short):
-    stock_share=Share(stock_short)
-    date_time_current= datetime.datetime.now().date()
+    stock_short = stock_short.upper()
+    stock_share = urllib2.urlopen(API_BASE_DAILY.format(API_KEY, stock_short))
+
+    # stock_share = Share(stock_short)
+    # date_time_current= datetime.datetime.now().date()
+
     #get the date of 7 days ago
-    date_gap=datetime.timedelta(days=7)
-    date_time_sevendays_ago = date_time_current-date_gap
+    # date_gap = datetime.timedelta(days = 7)
+    # date_time_sevendays_ago = date_time_current - date_gap
+
     #history for 7 days
-    stock_history = stock_share.get_historical(str(date_time_sevendays_ago), str(date_time_current))
+    # stock_history = stock_share.get_historical(str(date_time_sevendays_ago), str(date_time_current))
+    daily_data_json = stock_share['Time Series (Daily)']
+    daily_data_list = list(daily_data_json)
+    stock_history = []
+    i = 0
+    for d in daily_data_list:
+        stock_history.append(d)
+        if i == 6:
+            break
     return stock_history
 
 # get the current info of the latest stock info from yahoo_finance
 def get_current_stock_info(stock_short):
-    stock_share = Share(stock_short)
-    stock_current_info={}
-    stock_current_info['stock_short']=stock_short
-    stock_latest_price=stock_share.get_price()
-    stock_current_info['stock_latest_price']=stock_latest_price
-    stock_trade_datetime = stock_share.get_trade_datetime()
+    stock_short = stock_short.upper()
+    stock_share = urllib2.urlopen(API_BASE_CURRENT.format(API_KEY, stock_short))
+
+    # stock_share = Share(stock_short)
+    stock_current_info = {}
+    stock_current_info['stock_short'] = stock_short
+    stock_trade_datetime = stock_share['Meta Data']['3. Last Refreshed']
+    current_data_json = stock_share['Time Series (1min)']
+
+    stock_latest_price = current_data_json[stock_trade_datetime]['4. close']
+    # stock_latest_price=stock_share.get_price()
+    stock_current_info['stock_latest_price'] = stock_latest_price
+    # stock_trade_datetime = stock_share.get_trade_datetime()
     stock_current_info['stock_trade_datetime'] = stock_trade_datetime
-    stock_exchange = stock_share.get_stock_exchange()
+    prepare_symbols()
+    stock_exchange = ""
+    stock_company_name = ""
+    if stock_short in symbol_cluster_nasdaq:
+        stock_exchange = "nasdaq"
+        stock_company_name = symbol_cluster_nasdaq[stock_short]
+    elif stock_short in symbol_cluster_nyse:
+        stock_exchange = "nyse"
+        stock_company_name = symbol_cluster_nyse[stock_short]
+    elif stock_short in symbol_cluster_amex:
+        stock_exchange = "nyse"
+        stock_company_name = symbol_cluster_amex[stock_short]
+    # stock_exchange = stock_share.get_stock_exchange()
     stock_current_info['stock_exchange'] = stock_exchange
-    stock_company_name = stock_share.get_name()
+    # stock_company_name = stock_share.get_name()
     stock_current_info['stock_company_name'] = stock_company_name
     return stock_current_info
 
