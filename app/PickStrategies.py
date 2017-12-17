@@ -55,9 +55,6 @@ def get_historical_info_pandas(stock_short):
 
 
 def get_historical_info(stock_short):
-    stock_short = stock_short.upper()
-    stock_share = urllib2.urlopen(API_BASE_DAILY.format(API_KEY, stock_short))
-
     # stock_share = Share(stock_short)
     # date_time_current= datetime.datetime.now().date()
 
@@ -68,16 +65,13 @@ def get_historical_info(stock_short):
     #history for 7 days
     # stock_history = stock_share.get_historical(str(date_time_sevendays_ago), str(date_time_current))
 
-    daily_data_json = stock_share['Time Series (Daily)']
-    daily_data_list = list(daily_data_json)
-    stock_history = []
-    i = 0
-    for d in daily_data_list:
-        stock_history.append(d)
-        i = i + 1
-        if i == 6:
-            break
-    return stock_history
+    stock_short = stock_short.upper()
+    response = urllib2.urlopen(API_BASE_DAILY.format(API_KEY, stock_short))
+
+    reader = csv.reader(response)
+    next(reader, None)  # skip the header
+    ts_data = [row for row in reader]
+    return ts_data[:7]  # return last 7days' data
 
 # get the current info of the latest stock info from yahoo_finance
 def get_current_stock_info(stock_short):
@@ -116,12 +110,12 @@ def get_current_stock_info(stock_short):
 
 # get all the stock list and according percentage for the selected strategies
 def get_stock_list_all(strategy_list):
-    stock_percent_list={}
-    if(len(strategy_list)==1):
-        stock_percent_list=get_stock_list(strategy_list[0],1)
+    stock_percent_list = {}
+    if(len(strategy_list) == 1):
+        stock_percent_list = get_stock_list(strategy_list[0], 1)
     else:
         for strategy in strategy_list:
-            stock_percent_list.update(get_stock_list(strategy,0.5))
+            stock_percent_list.update(get_stock_list(strategy, 0.5))
     return stock_percent_list
 
 
@@ -144,7 +138,7 @@ def get_stock_list(strategy,strategy_ratio):
     # the stocks_list for the selected strategies
     stock_percent_list={}
     for i in range(0,len(top_stocks)):
-        stock_percent_list[stocks[i]]= random_ratio[i] * strategy_ratio
+        stock_percent_list[stocks[i]] = random_ratio[i] * strategy_ratio
     return stock_percent_list
 
 
