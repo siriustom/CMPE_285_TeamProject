@@ -2,6 +2,7 @@ from app.PickStrategies import get_stock_list_all, get_strategy_stock_info, get_
 from flask import render_template, flash, redirect, request
 from app import app
 from .forms import InvestForm
+from pprint import pprint
 import json
 
 
@@ -15,25 +16,21 @@ def invest():
     if request.method =='POST':
         form = InvestForm(request.form)
         amount = float(request.form['amount'])
-        print(1)
         if amount < 5000:
             return render_template('error.html')
-        print(2)
         print(amount)
         choices = request.form.getlist('strategies')
-        print(3)
         if len(choices) <= 0 or len(choices) > 2:
             return render_template('error.html')
-        print(choices)
-        print(4)
+        pprint(choices)
         testArray = ['Ethical']
         stocklist = get_stock_list_all(testArray)
         details = get_strategy_stock_info(stocklist, amount)
         print(6)
-        print(stocklist)
+        pprint(stocklist)
         history = get_historical_strategy_stock_value(stocklist, amount)
         print(7)
-        print(history)
+        pprint(history)
         return render_template("result.html", details=details, history=history)
         # return render_template("result.html", details=details, data=map(json.dumps, details))
 
