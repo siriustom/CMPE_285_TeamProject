@@ -70,70 +70,25 @@
                 <th>Holding Value</th>
                 <th>Exchange</th>
             </tr>
+            {% for detail in details %}
             <tr>
-                <td>APPL</td>
-                <td>APPLE Inc.</td>
-                <td>170.20</td>
-                <td>0.25</td>
-                <td>12455</td>
-                <td>nasdaq</td>
+                <td>{{ details[detail].stock_short }}</td>
+                <td>{{ details[detail].stock_company_name }}</td>
+                <td>{{ details[detail].stock_latest_price }}</td>
+                <td>{{ details[detail].holding_ratio }}</td>
+                <td>{{ details[detail].holding_value }}</td>
+                <td>{{ details[detail].stock_exchange }}</td>
             </tr>
-            <tr>
-                <td>ABCD</td>
-                <td>ABCD Inc.</td>
-                <td>180.20</td>
-                <td>0.25</td>
-                <td>1455</td>
-                <td>nasdaq</td>
-            </tr>
-            <tr>
-                <td>CRAZY</td>
-                <td>CRAZY Inc.</td>
-                <td>442.20</td>
-                <td>0.25</td>
-                <td>1455</td>
-                <td>nasdaq</td>
-            </tr>
+            {% endfor %}
         </table>
-        <table class="hidden" id="histable">
-        
-                <tbody><tr style="display:none">
-                    <td>2017-12-15</td>
-          <td>23232.0</td>
-                </tr>
-        
-                <tr style="display:none">
-                    <td>2017-12-14</td>
-          <td>22890.91</td>
-                </tr>
-        
-                <tr style="display:none">
-                    <td>2017-12-13</td>
-          <td>23109.61</td>
-                </tr>
-        
-                <tr style="display:none">
-                    <td>2017-12-12</td>
-          <td>22940.15</td>
-                </tr>
-        
-                <tr style="display:none">
-                    <td>2017-12-11</td>
-          <td>23106.94</td>
-                </tr>
-        
-                <tr style="display:none">
-                    <td>2017-12-08</td>
-          <td>0.0</td>
-                </tr>
-        
-                <tr style="display:none">
-                    <td>2017-12-07</td>
-          <td>0.0</td>
-                </tr>
-        
-            </tbody>
-          </table>
+        <table class="table" id="histable" align="center">
+          {% for his in history %}
+          <tr style="display:none">
+              <td>{{ his.date }}</td>
+              <td>{{ his.value }}</td>
+          </tr>
+          {% endfor %}
+        </table>
       </div>
     </section>
 
@@ -161,7 +116,7 @@
       </div>
       <div class="gap"></div>
       <div class="container text-center">
-          <a class="btn btn-xl btn-primary sr-button" href="#">Change Strategy</a>
+          <a class="btn btn-xl btn-primary sr-button" href="invest">Change Strategy</a>
       </div>
     </section>
 

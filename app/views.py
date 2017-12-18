@@ -28,7 +28,7 @@ def invest():
         pprint(stocklist)
         history = get_historical_strategy_stock_value(stocklist, amount)
         pprint(history)
-        return render_template("result.html", details=details, history=history)
+        return render_template("new_result.html", details=details, history=history)
         # return render_template("result.html", details=details, data=map(json.dumps, details))
 
     return render_template('new_index.html')
