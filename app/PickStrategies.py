@@ -66,19 +66,19 @@ def get_current_stock_info(stock_short):
 def get_stock_list_all(strategy_list):
     stock_percent_list={}
     if(len(strategy_list)==1):
-        stock_percent_list=get_stock_list(strategy_list[0],1)
+        stock_percent_list=get_stock_list(strategy_list[0], 1)
     else:
         for strategy in strategy_list:
-            stock_percent_list.update(get_stock_list(strategy,0.5))
+            stock_percent_list.update(get_stock_list(strategy, 0.5))
     return stock_percent_list
 
 
 stock_info = {
-        'Ethical': ('AAPL', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
-        'Growth': ('AAPL', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
-        'Index': ('AAPL', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
-        'Quality': ('AAPL', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
-        'Value': ('AAPL', 'AAPL', 'ISRG', 'GILD', 'GOOGL')
+        'Ethical': ('AMZN', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
+        'Growth': ('AMZN', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
+        'Index': ('AMZN', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
+        'Quality': ('AMZN', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
+        'Value': ('AMZN', 'AAPL', 'ISRG', 'GILD', 'GOOGL')
     }
 #get the stock list and according percentage for one selected strategy, and the allotment is divided equally
 def get_stock_list(strategy, strategy_ratio):
