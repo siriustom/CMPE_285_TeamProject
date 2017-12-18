@@ -74,11 +74,10 @@ def get_stock_list_all(strategy_list):
 
 
 stock_info = {
-        'Ethical': ('AMZN', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
-        'Growth': ('AMZN', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
-        'Index': ('AMZN', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
-        'Quality': ('AMZN', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
-        'Value': ('AMZN', 'AAPL', 'ISRG', 'GILD', 'GOOGL')
+        'Ethical': ('CECE', 'CSOD', 'PESI', 'POPE', 'SMED'),
+        'Growth': ('TSLA', 'AVAV', 'TATT', 'SIFY', 'KLXI'),
+        'Index': ('LNDC', 'LWAY', 'MDLZ', 'RAVE', 'RIBT'),
+        'Quality': ('RYAAY', 'SABR', 'TST', 'EDBI', 'AFMD')
     }
 #get the stock list and according percentage for one selected strategy, and the allotment is divided equally
 def get_stock_list(strategy, strategy_ratio):
