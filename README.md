@@ -9,4 +9,4 @@ To run the application, please follow the is steps below:
 6. pip install flask_wtf
 7. python run.py
 8. GOTO http://127.0.0.1:5000/invest
-9. Demo Link: https://youtu.be/vgtZMWo3LZw (Youtube)
+9. Demo Link: https://youtu.be/pWAroRwz4tc (Youtube)
