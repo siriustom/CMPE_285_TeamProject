@@ -1,8 +1,6 @@
 
 from collections import defaultdict, OrderedDict
-from pprint import pprint
 import datetime
-import json
 import numpy as np, numpy.random
 import urllib2
 import csv
@@ -29,16 +27,6 @@ def prepare_symbols():
     load_symbol_map('amex.csv')
 
 def get_historical_info(stock_short):
-    # stock_share = Share(stock_short)
-    # date_time_current= datetime.datetime.now().date()
-
-    #get the date of 7 days ago
-    # date_gap = datetime.timedelta(days = 7)
-    # date_time_sevendays_ago = date_time_current - date_gap
-
-    #history for 7 days
-    # stock_history = stock_share.get_historical(str(date_time_sevendays_ago), str(date_time_current))
-
     stock_short = stock_short.upper()
     response = urllib2.urlopen(API_BASE_DAILY.format(API_KEY, stock_short))
 
@@ -47,7 +35,7 @@ def get_historical_info(stock_short):
     ts_data = [row for row in reader]
     return ts_data[:7]  # return last 7days' data
 
-# get the current info of the latest stock info from yahoo_finance
+# get the current info of the latest stock info from alphavantage
 def get_current_stock_info(stock_short):
     stock_short = stock_short.upper()
     stock_share = urllib2.urlopen(API_BASE_CURRENT.format(API_KEY, stock_short))
@@ -56,7 +44,6 @@ def get_current_stock_info(stock_short):
     reader = csv.reader(stock_share)
     next(reader, None)  # skip header: timestamp,open,high,low,close,volume
     latest = next(reader, None)
-    print latest
     stock_current_info = {}
     stock_current_info['stock_short'] = stock_short
     # timestamp format: 2017-12-15 16:00:00
@@ -108,36 +95,31 @@ def get_stock_list(strategy):
 
 #investment for each stock info,the value is  five days ago(work time, not including weekends)
 def get_strategy_stock_info(stock_list, investment):
-    #stock_list={}
-    #stock_list['AAPL']=0.5
-    #stock_list['ADBE'] = 0.5
-    #investment=5000
     stock_strategy_invest_info = {}
-    for stock_short in stock_list.keys():
-        print(stock_short)
-        stock_current_info = get_current_stock_info('AAPL')
-        print stock_current_info
+    for stock_short in stock_list:
+        stock_current_info = get_current_stock_info(stock_short) #get every current stock info
         holding_ratio = stock_list[stock_short]
         stock_current_info['holding_ratio'] = float("{0:.4f}".format(holding_ratio))
         stock_current_info['holding_value'] = float("{0:.2f}".format(holding_ratio * investment))
+        # fill stock combination of current strategy with current stock info
         stock_strategy_invest_info[stock_short] = stock_current_info
     return stock_strategy_invest_info
 
 
 #get the portfolio total value of the past five days--dict
 def get_historical_strategy_stock_value(stock_list, investment):
-    stock_historical_values= defaultdict(float)
+    stock_historical_values = defaultdict(float)
     ordered_date = []
     result = []
     for stock_short in stock_list:
-        historical_info=get_historical_info(stock_short)
-        pprint(historical_info)
+        historical_info = get_historical_info(stock_short)
         if not ordered_date:
             ordered_date = [itm[0] for itm in historical_info]
         holding_ratio = stock_list[stock_short]
         point_price = float(historical_info[0][4])
-        for i in range(0,5):
-            stock_historical_values[historical_info[i][0]] += float(historical_info[i][4]) / point_price * investment * holding_ratio
+        for i in range(0, 5):
+            stock_historical_values[historical_info[i][0]] += float(historical_info[i][4])\
+                                                              / point_price * investment * holding_ratio
 
     for date in ordered_date:
         dict_json = {}
@@ -145,30 +127,6 @@ def get_historical_strategy_stock_value(stock_list, investment):
         dict_json['value'] = float("{0:.2f}".format(stock_historical_values[date]))
         result.append(dict_json)
     return result
-
-#get the portfolio total value of the past five days--dict
-# def get_historical_strategy_stock_value(stock_list,investment):
-#     stock_historical_values= defaultdict(float)
-#     ordered_date = []
-#     for stock_short in stock_list:
-#         historical_info=get_historical_info_pandas(stock_short)
-#         print("======================")
-#         print(historical_info)
-#         if not ordered_date:
-#             ordered_date = [itm[0] for itm in historical_info]
-#         holding_ratio = stock_list[stock_short]
-#         point_price=historical_info[0][1]
-#         for i in xrange(5):
-#             stock_historical_values[historical_info[i][0]]+= historical_info[i][1]/point_price*investment*holding_ratio
-#     result = []
-#     for date in ordered_date:
-#         dict_json = {}
-#         dict_json['date'] = date
-#         dict_json['value'] = float("{0:.2f}".format(stock_historical_values[date]))
-#         result.append(dict_json)
-#     #json_str = json.dumps(dict_json)
-#     print(len(result))
-#     return result
 
 def get_share_lastday(stock_short):
     API_KEY = '2IGI5KM2OW30BC4P'

@@ -26,10 +26,8 @@ def invest():
         testArray = ['Ethical']
         stocklist = get_stock_list_all(testArray)
         details = get_strategy_stock_info(stocklist, amount)
-        print(6)
         pprint(stocklist)
         history = get_historical_strategy_stock_value(stocklist, amount)
-        print(7)
         pprint(history)
         return render_template("result.html", details=details, history=history)
         # return render_template("result.html", details=details, data=map(json.dumps, details))
