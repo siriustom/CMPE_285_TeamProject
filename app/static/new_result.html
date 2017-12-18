@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Stock Portfolio Suggestion Engine - Suggestion</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Plugin CSS -->
+    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link href="css/creative.min.css" rel="stylesheet">
+    <link href="css/crazy_invest.css" rel="stylesheet">
+
+  </head>
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">CRAZY INVESTMENT</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#current">Current</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#ratio">Ratio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#trend">Trend</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section id="current" class="bg-dark text-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h2 class="section-heading">Current Value</h2>
+            <hr class="my-4">
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <table class="table table-striped" id="stockTable" align="center">
+            <tr>
+                <th>Symbol</th>
+                <th>Company</th>
+                <th>Latest Price</th>
+                <th>Holding Ratio</th>
+                <th>Holding Value</th>
+                <th>Exchange</th>
+            </tr>
+            <tr>
+                <td>APPL</td>
+                <td>APPLE Inc.</td>
+                <td>170.20</td>
+                <td>0.25</td>
+                <td>12455</td>
+                <td>nasdaq</td>
+            </tr>
+            <tr>
+                <td>ABCD</td>
+                <td>ABCD Inc.</td>
+                <td>180.20</td>
+                <td>0.25</td>
+                <td>1455</td>
+                <td>nasdaq</td>
+            </tr>
+            <tr>
+                <td>CRAZY</td>
+                <td>CRAZY Inc.</td>
+                <td>442.20</td>
+                <td>0.25</td>
+                <td>1455</td>
+                <td>nasdaq</td>
+            </tr>
+        </table>
+        <table class="hidden" id="histable">
+        
+                <tbody><tr style="display:none">
+                    <td>2017-12-15</td>
+          <td>23232.0</td>
+                </tr>
+        
+                <tr style="display:none">
+                    <td>2017-12-14</td>
+          <td>22890.91</td>
+                </tr>
+        
+                <tr style="display:none">
+                    <td>2017-12-13</td>
+          <td>23109.61</td>
+                </tr>
+        
+                <tr style="display:none">
+                    <td>2017-12-12</td>
+          <td>22940.15</td>
+                </tr>
+        
+                <tr style="display:none">
+                    <td>2017-12-11</td>
+          <td>23106.94</td>
+                </tr>
+        
+                <tr style="display:none">
+                    <td>2017-12-08</td>
+          <td>0.0</td>
+                </tr>
+        
+                <tr style="display:none">
+                    <td>2017-12-07</td>
+          <td>0.0</td>
+                </tr>
+        
+            </tbody>
+          </table>
+      </div>
+    </section>
+
+    <section id="ratio" class="">
+      <div class="container text-center">
+        <h2 class="section-heading">Holding Ratio</h2>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col-md-5">
+                <div id="piechart" style=" width: 800px; height: 800px; left: calc(50% + 20px); position: relative;"></div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="trend" class="bg-dark text-white">
+      <div class="container text-center">
+        <h2 class="section-heading">Trend</h2>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col-md-5">
+                <div id="curve_chart" style="width: 1000px; height: 400px; left: calc(10% + 20px); position: relative;"></div>
+            </div>
+        </div>
+      </div>
+      <div class="gap"></div>
+      <div class="container text-center">
+          <a class="btn btn-xl btn-primary sr-button" href="#">Change Strategy</a>
+      </div>
+    </section>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor/scrollreveal/scrollreveal.min.js"></script>
+    <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/creative.js"></script>
+
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.css">
+
+  </body>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    var tr = document.getElementById('stockTable').rows;
+    var pieDatas = [];
+    var header = tr[0].cells;
+    var headers = [];
+    headers.push(header[1].innerHTML);
+    headers.push(header[3].innerHTML);
+    pieDatas.push(headers);
+    for (var i = 0; i < tr.length; i++) {
+        var pieData = [];
+        td = tr[i].cells;
+        pieData.push(td[1].innerHTML);
+        var num = parseFloat(td[3].innerHTML) * 100;
+        num = Math.round(num);
+        pieData.push(num);
+        pieDatas.push(pieData);
+        console.log(pieData);
+    }
+    function drawChart() {
+        console.log(pieDatas);
+        var data = google.visualization.arrayToDataTable(pieDatas);
+        var options = {
+            title: 'Holding Ratio',
+            is3D: true,
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawLine);
+    var history_tr = document.getElementById('histable').rows;
+    var lineDatas = [];
+    lineDatas.push(['Date', 'Amount']);
+    let historyLen = history_tr.length;
+    for (var i = historyLen-1; i >= 0; i--) {
+        var lineData = [];
+        td = history_tr[i].cells;
+        lineData.push(td[0].innerHTML);
+        var num = parseFloat(td[1].innerHTML);
+        lineData.push(num);
+        lineDatas.push(lineData);
+        console.log(lineData);
+    }
+    function drawLine() {
+         var data = google.visualization.arrayToDataTable(lineDatas);
+        var options = {
+          backgroundColor: "#212529",
+          legend: { 
+            position: 'top',
+            textStyle: {
+              color: "#eeeeee"
+            }
+          },
+          colors: ['#f05f40'],
+          hAxis: {
+            title: 'Date',
+            textStyle: {
+             color: '#eeeeee' 
+            },
+            titleTextStyle: {
+              color: '#eeeeee'
+            }
+          },
+          vAxis: {
+            title: 'Amount',
+            textStyle: {
+             color: '#eeeeee' 
+            },
+            titleTextStyle: {
+              color: '#eeeeee'
+            }
+          }
+        };
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+        chart.draw(data, options);
+      }
+</script>
+</html>
