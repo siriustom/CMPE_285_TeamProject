@@ -106,11 +106,12 @@
 
   // form submit control
   $(document).on("click", "#submit_strategy_selection", function(){
+    // show loader
+    $("#loader-content").show();
 
     let $form = $("#strategy_selection_form");
     $form.find("#selected_strategies_val").val(JSON.stringify(crazy.selectedStrategies));
     $form.submit();
-
   });
 
   function toogleHintAndSubmitBtn()
