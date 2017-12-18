@@ -117,7 +117,7 @@ def get_historical_strategy_stock_value(stock_list, investment):
             ordered_date = [itm[0] for itm in historical_info]
         holding_ratio = stock_list[stock_short]
         point_price = float(historical_info[0][4])
-        for i in range(0, 5):
+        for i in range(0, 7):
             stock_historical_values[historical_info[i][0]] += float(historical_info[i][4])\
                                                               / point_price * investment * holding_ratio
 
