@@ -94,6 +94,21 @@
     {
       crazy.selectedStrategies.splice(keyIndex, 1);
     }
+
+    // toogle hint and button
+    let $selection_hint = $("#selection_hint");
+    let $submit_btn_container = $("#submit_btn_container");
+    if(crazy.selectedStrategies.length > 2 || crazy.selectedStrategies.length <= 0)
+    {
+      $selection_hint.show();
+      $submit_btn_container.hide();
+    }
+    else
+    {
+      $selection_hint.hide();
+      $submit_btn_container.show();
+    }
+
     console.log(crazy.selectedStrategies);
   })
 

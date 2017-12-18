@@ -1,6 +1,9 @@
 img {
     width: 100%;
 }
+.hidden {
+  display: none;
+}
 .round {
   -webkit-border-radius: 50%;
   border-radius: 50%;
@@ -41,4 +44,9 @@ img {
 .stratrgy_icon_invisibe
 {
 	visibility: hidden;
+}
+
+#submit_btn_container
+{
+  display: none;
 }
