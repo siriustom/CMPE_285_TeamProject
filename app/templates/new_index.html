@@ -11,18 +11,18 @@
     <title>Stock Portfolio Suggestion Engine</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static',filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename='vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- Plugin CSS -->
-    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+    <link href="{{ url_for('static',filename='vendor/magnific-popup/magnific-popup.css') }}" rel="stylesheet">
 
     <!-- Custom styles -->
-    <link href="css/creative.min.css" rel="stylesheet">
-    <link href="css/crazy_invest.css" rel="stylesheet">
+    <link href="{{ url_for('static',filename='css/creative.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='css/crazy_invest.css') }}" rel="stylesheet">
 
   </head>
 
@@ -78,7 +78,8 @@
         </div>
       </div>
       <div class="container">
-        <form>
+        <form id="strategy_selection_form" action = "" method="post" name="Strategy">
+          <input type="hidden" name="strategies" id="selected_strategies_val">
           <div class="row">
             <div class="col-lg-3 col-md-6 text-center strategy-container">
               <div class="service-box mt-5 mx-auto">
@@ -116,20 +117,17 @@
                 <i class="fa fa-2x fa-check-circle-o text-primary mb-3 sr-icons strategy-checked-icon invisible"></i>
               </div>
             </div>
-
-
+          </div>
+        
+          <div class="gap-small"></div>
+          <div class="row">
+            <div class="container text-center">
+              <input type="text" name="amount" placeholder=" Amount: " size="20">
+              <div class="gap-small"></div>
+              <a class="btn btn-xl btn-primary sr-button" href="javascript:void(0)" id="submit_strategy_selection">Suggestion</a>
+            </div>
           </div>
         </form>
-        <div class="gap-small"></div>
-        <div class="row">
-          <div class="container text-center">
-            <input type="text" name="" placeholder=" Amount: " size="20">
-            <div class="gap-small"></div>
-            <a class="btn btn-xl btn-primary sr-button" href="#">Suggestion</a>
-          </div>
-            
-        </div>
-        
       </div>
     </section>
 
@@ -142,7 +140,7 @@
           <div class="col-md-3">
               <div class="thumb text-center">
                   <header class="thumb-header">
-                      <img class="round" src="img/avatar1.jpeg" alt="Image Alternative text" title="Gamer Chick" />
+                      <img class="round" src="{{ url_for('static',filename='img/avatar1.jpeg') }}" alt="Image Alternative text" title="Gamer Chick" />
                   </header>
                   <div class="gap-small"></div>
                   <div class="thumb-caption">
@@ -154,7 +152,7 @@
           <div class="col-md-3">
               <div class="thumb text-center">
                   <header class="thumb-header">
-                      <img class="round" src="img/avatar2.jpg" alt="Image Alternative text" title="Gamer Chick" />
+                      <img class="round" src="{{ url_for('static',filename='img/avatar2.jpg') }}" alt="Image Alternative text" title="Gamer Chick" />
                   </header>
                   <div class="gap-small"></div>
                   <div class="thumb-caption">
@@ -166,7 +164,7 @@
           <div class="col-md-3">
               <div class="thumb text-center">
                   <header class="thumb-header">
-                      <img class="round" src="img/avatar4.jpg" alt="Image Alternative text" title="Gamer Chick" />
+                      <img class="round" src="{{ url_for('static',filename='img/avatar4.jpg') }}" alt="Image Alternative text" title="Gamer Chick" />
                   </header>
                   <div class="gap-small"></div>
                   <div class="thumb-caption">
@@ -178,7 +176,7 @@
           <div class="col-md-3">
               <div class="thumb text-center">
                   <header class="thumb-header">
-                      <img class="round" src="img/avatar3.jpg" alt="Image Alternative text" title="Gamer Chick" />
+                      <img class="round" src="{{ url_for('static',filename='img/avatar3.jpg') }}" alt="Image Alternative text" title="Gamer Chick" />
                   </header>
                   <div class="gap-small"></div>
                   <div class="thumb-caption">
@@ -218,16 +216,16 @@
     </section>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static',filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Plugin JavaScript -->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="vendor/scrollreveal/scrollreveal.min.js"></script>
-    <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script src="{{ url_for('static',filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='vendor/scrollreveal/scrollreveal.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='vendor/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
 
     <!-- Custom scripts for this template -->
-    <script src="js/creative.js"></script>
+    <script src="{{ url_for('static',filename='js/creative.js') }}"></script>
 
   </body>
 

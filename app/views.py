@@ -14,7 +14,6 @@ def invest():
     # except:
     #     return render_template('error.html')
     if request.method =='POST':
-        form = InvestForm(request.form)
         amount = float(request.form['amount'])
         if amount < 5000:
             return render_template('error.html')
@@ -32,6 +31,5 @@ def invest():
         return render_template("result.html", details=details, history=history)
         # return render_template("result.html", details=details, data=map(json.dumps, details))
 
-    return render_template('invest.html', form=form,
-                           strategy=app.config['STRATEGY'])
+    return render_template('new_index.html')
 

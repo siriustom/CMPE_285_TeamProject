@@ -78,6 +78,7 @@
   let crazy = window.crazy ? window.crazy : {};
   crazy.selectedStrategies = [];
 
+  // strategy selection
   $(document).on("click", ".strategy-container", function(){
     // toggle icon visibility
     $(this).find("i.strategy-checked-icon").toggleClass("invisible");
@@ -96,6 +97,14 @@
     console.log(crazy.selectedStrategies);
   })
 
+  // form control
+  $(document).on("click", "#submit_strategy_selection", function(){
+
+    let $form = $("#strategy_selection_form");
+    $form.find("#selected_strategies_val").val(crazy.selectedStrategies);
+    $form.submit();
+
+  });
 
 
 })(jQuery); // End of use strict
