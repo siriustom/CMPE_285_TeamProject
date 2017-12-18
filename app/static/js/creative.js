@@ -108,7 +108,7 @@
   $(document).on("click", "#submit_strategy_selection", function(){
 
     let $form = $("#strategy_selection_form");
-    $form.find("#selected_strategies_val").val(crazy.selectedStrategies);
+    $form.find("#selected_strategies_val").val(JSON.stringify(crazy.selectedStrategies));
     $form.submit();
 
   });

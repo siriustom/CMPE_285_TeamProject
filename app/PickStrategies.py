@@ -64,19 +64,24 @@ def get_current_stock_info(stock_short):
 
 # get all the stock list and according percentage for the selected strategies
 def get_stock_list_all(strategy_list):
-    stock_percent_list = get_stock_list(strategy_list[0])
+    stock_percent_list={}
+    if(len(strategy_list)==1):
+        stock_percent_list=get_stock_list(strategy_list[0],1)
+    else:
+        for strategy in strategy_list:
+            stock_percent_list.update(get_stock_list(strategy,0.5))
     return stock_percent_list
 
 
 stock_info = {
-        'Ethical': ('AAPL', 'ADBE', 'ISRG', 'GILD', 'GOOGL'),
-        'Growth': ('BIIB', 'AKRX', 'IPGP', 'PSXP', 'NFLX'),
-        'Index': ('VTI', 'IXUS', 'ILTB', 'VIS', 'KRE', 'VEU'),
-        'Quality': ('QUAL', 'SPHQ', 'DGRW', 'QDF'),
-        'Value': ('AAON', 'CTB', 'JNJ', 'GRUB', 'TTGT')
+        'Ethical': ('AAPL', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
+        'Growth': ('AAPL', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
+        'Index': ('AAPL', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
+        'Quality': ('AAPL', 'AAPL', 'ISRG', 'GILD', 'GOOGL'),
+        'Value': ('AAPL', 'AAPL', 'ISRG', 'GILD', 'GOOGL')
     }
 #get the stock list and according percentage for one selected strategy, and the allotment is divided equally
-def get_stock_list(strategy):
+def get_stock_list(strategy, strategy_ratio):
     #define the stocks for each strategy
     stocks = stock_info[strategy]
 
@@ -89,7 +94,7 @@ def get_stock_list(strategy):
     # the stocks_list for the selected strategies
     stock_percent_list = {}
     for i in range(0,len(top_stocks)):
-        stock_percent_list[stocks[i]]= random_ratio[i]
+        stock_percent_list[stocks[i]]= random_ratio[i] * strategy_ratio
     return stock_percent_list
 
 
